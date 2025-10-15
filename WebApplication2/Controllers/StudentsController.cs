@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyMediator.Types;
+using WebApplication2.CQRS.CommandList;
 using WebApplication2.CQRS.DTO;
 
 namespace WebApplication2.Controllers
@@ -16,6 +17,19 @@ namespace WebApplication2.Controllers
         }
 
         [HttpGet("ListStudentsByGroup")]
-        public async Task<ActionResult<IEnumerable<StudentDTO>>>
+        public async Task<ActionResult<IEnumerable<StudentDTO>>> TaskOneCommand(int groupIndex)
+        {
+            try
+            {
+                var command = new TaskOneCommand { GroupIndex = groupIndex };
+                var result = await mediator.SendAsync(command);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Ошибка: {ex.Message}");
+            }
+
+        }
     }
 }
