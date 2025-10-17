@@ -7,7 +7,7 @@ namespace WebApplication2.CQRS.CommandList
 {
     public class TaskOneCommand : IRequest<IEnumerable<StudentDTO>>
     {
-        public required int GroupIndex { get; set; }
+        public required int? GroupIndex { get; set; }
 
         public class TaskOneCommandHandler : IRequestHandler<TaskOneCommand, IEnumerable<StudentDTO>>
         {
