@@ -7,7 +7,6 @@ namespace WebApplication2.CQRS.CommandList
 {
     public class TaskSevenCommand : IRequest
     {
-        public int Id { get; set; }
 
         public string? Title { get; set; }
 
@@ -23,7 +22,13 @@ namespace WebApplication2.CQRS.CommandList
             }
             public async Task<Unit> HandleAsync(TaskSevenCommand request, CancellationToken ct = default)
             {
-                Group group = new Group { Title = request.Title, Id = request.Id, IdSpecial = request.IdSpecial};
+                var special = db.Specials.FirstOrDefault(a => a.Id == request.IdSpecial);
+                if (special == null)
+                {
+                    return Unit.Value;
+                }
+                
+                Group group = new Group { Title = request.Title, IdSpecial = special.Id, IdSpecialNavigation = special};
                 db.Groups.Add(group);
                 await db.SaveChangesAsync();
 

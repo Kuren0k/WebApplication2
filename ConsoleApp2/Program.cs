@@ -57,9 +57,9 @@ namespace ConsoleApp2
                         case "7":
                             await Seven();
                             break;
-                        //case "8":
-                        //    await Eight();
-                        //    break;
+                        case "8":
+                            await Eight();
+                            break;
                         //case "9":
                         //    await Nine();
                         //    break;
@@ -177,8 +177,27 @@ namespace ConsoleApp2
         {
             try
             {
+                Console.WriteLine("Название группы");
+                string title = Console.ReadLine();
+                Console.WriteLine("Id специальности");
+                int.TryParse(Console.ReadLine(), out int idSpecial);
+                var request = await client.PostAsync($"Students/AddGroup?Title={title}&idSpecial={idSpecial}",null);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка: {ex.Message}");
+            }
+        }
+
+        static async Task Eight()
+        {
+            try
+            {
+                Console.WriteLine("Id студента");
+                int.TryParse(Console.ReadLine(), out int idStudent);
                 Console.WriteLine("Id группы");
-                int.TryParse(Console.ReadLine(), out int id);
+                int.TryParse(Console.ReadLine(), out int idGroup);
+                var request = await client.PostAsync($"Students/UpdateStudent?idStudent={idStudent}&idGroup={idGroup}", null);
             }
             catch (Exception ex)
             {

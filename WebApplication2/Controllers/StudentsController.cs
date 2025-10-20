@@ -92,10 +92,25 @@ namespace WebApplication2.Controllers
             }
         }
 
-        [HttpGet("AddGroup")]
-        public async Task<ActionResult> AddGender(string title, int id, int idSpecial)
+        [HttpPost("AddGroup")]
+        public async Task<ActionResult> AddGender(string title, int idSpecial)
         {
-            var command = new TaskSevenCommand { Title = title, IdSpecial = idSpecial, Id = id };
+            var command = new TaskSevenCommand { Title = title, IdSpecial = idSpecial };
+            try
+            {
+                await mediator.SendAsync(command);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+            return Ok();
+        }
+
+        [HttpPost("UpdateStudent")]
+        public async Task<ActionResult> UpdateStudent(int idStudent, int idGroup)
+        {
+            var command = new TaskEightCommand { IdStudent = idStudent, IdGroup = idGroup };
             try
             {
                 await mediator.SendAsync(command);
